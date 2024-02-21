@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +23,7 @@ Route::get('/greet', function () {
     $name = 'John';
     return view('greet', ['name'=> $name]);
 });
+
+Route::get('/users', [UserController::class, 'index']);
+
+Route::resource('posts', PostController::class);
