@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // return view('home');
+    return view('no-auth-home');
+});
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -27,3 +33,7 @@ Route::get('/greet', function () {
 Route::get('/users', [UserController::class, 'index']);
 
 Route::resource('posts', PostController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

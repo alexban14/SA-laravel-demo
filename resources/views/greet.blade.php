@@ -1,6 +1,6 @@
 <h1>Hi there, <i>{{ $name }}</i>!</h1>
 
-@if($user->isAdmin)
+{{-- @if($user->isAdmin)
     <p>Welcome, Admin!</p>
 @else
     <p>Welcome, User!</p>
@@ -21,4 +21,4 @@
 	<div class="alert alert-success">
     	{{ session('success') }}
 	</div>
-@endif
+@endif --}}
