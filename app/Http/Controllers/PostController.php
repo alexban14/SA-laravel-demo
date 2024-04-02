@@ -13,8 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::orderBy("id","desc");
-        return view("post.index", compact("post"));
+        $posts = Post::orderBy("id","desc")->get();
+        return view("posts.index", compact("posts"));
     }
 
     /**
@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("post.create");
+        return view("posts.create");
     }
 
     /**
@@ -31,16 +31,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedInput = $request->validate([
-            "title"=> "string|required|max:255",
-            "body" => "string|required",
-            "image" => "string",
+            "post_title"=> "string|required|max:255",
+            "post_body" => "string|required|max:1000",
+            "post_image" => "string|max:255",
         ]);
-        // ...saving logic
 
-        // saved the data successfully
-
-        // redirecting to url
-        // return redirect('/posts')->with('success','Post created successfully!');
+        Post::create([
+            'title' => $validatedInput['post_title'],
+            'body' => $validatedInput['post_body'],
+            'image' => $validatedInput['post_image'],
+        ]);
 
         //redirecting to controller action
         return redirect()

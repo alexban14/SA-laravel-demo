@@ -30,7 +30,7 @@ Route::get('/greet', function () {
     return view('greet', ['name'=> $name]);
 });
 
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 Route::resource('posts', PostController::class);
 
