@@ -44,8 +44,8 @@ class PostController extends Controller
 
         //redirecting to controller action
         return redirect()
-            ->action([PostController::class, "index"])
-            ->with('success','Post created successfully!');
+                    ->action([PostController::class, "index"])
+                    ->with('success','Post created successfully!');
 
         //redirecting to named route
         // return redirect('post.index')->with('success','Post created successfully!');
@@ -56,7 +56,13 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::whereId($id)->first();
+
+        if ($post) {
+            return view('posts.show', compact('post'));
+        } else {
+            return redirect()->back()->with('error', 'Post not found');
+        }
     }
 
     /**
@@ -64,7 +70,16 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $post = Post::whereId($id)->first();
+
+        if ($post) {
+            return view('posts.edit', compact('post'));
+        } else {
+            return redirect()
+                        ->back()
+                        ->with('error', 'Post not found');
+        }
     }
 
     /**
@@ -74,7 +89,17 @@ class PostController extends Controller
     {
         $validatedData = $request->validated();
 
-        // update the resource with the validated
+        $post = Post::where($id)->first();
+
+        $post->update([
+            'title' => $validatedData['post_title'],
+            'body' => $validatedData['post_body'],
+            'image' => $validatedData['post_image'],
+        ]);
+
+        return redirect()
+                    ->action('/posts', $post->id)
+                    ->with('success','Post updated successfully!');
     }
 
     /**

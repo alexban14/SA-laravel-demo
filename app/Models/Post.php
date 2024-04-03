@@ -14,8 +14,4 @@ class Post extends Model
         "body",
         "image",
     ];
-
-    protected $hidden = [
-        "id",
-    ];
 }

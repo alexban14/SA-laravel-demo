@@ -8,13 +8,21 @@
             </div>
         @endif
 
-        <div class="d-flex flex-row justify-content-between">
+        <div class="mb-3">
+            <a href="/posts/create">
+                <button class="btn btn-outline-success">
+                    New Post
+                </button>
+            </a>
+        </div>
+
+        <div class="d-flex flex-row justify-content-start">
             @foreach ($posts as $post)
-                <div class="card" style="width: 18rem;">
+                <div class="card m-3" style="width: 18rem;">
                     <img src="{{ $post->image }}" class="card-img-top" alt="{{ $post->title }}">
                     <div class="card-body">
                         <h5 class="card-title"> {{ $post->title }}</h5>
-                        <a href="#" class="btn btn-primary">See post</a>
+                        <a href="/posts/{{ $post->id }}" class="btn btn-primary">See post</a>
                     </div>
                 </div>
             @endforeach
