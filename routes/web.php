@@ -32,7 +32,27 @@ Route::get('/greet', function () {
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-Route::resource('posts', PostController::class);
+// Route::resource('posts', PostController::class);
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'index'])
+            ->name('index');
+    Route::get('/{id}', [PostController::class, 'show'])
+            ->name('show')
+            ->where(['id' => '[0-9]+']);
+    Route::get('/create', [PostController::class, 'create'])
+            ->name('create');
+    Route::post('/', [PostController::class, 'store'])
+            ->name('store');
+    Route::get('/{id}/edit', [PostController::class, 'edit'])
+            ->name('edit')
+            ->where(['id' => '[0-9]+']);
+    Route::put('/{id}', [PostController::class, 'update'])
+            ->name('update')
+            ->where(['id' => '[0-9]+']);
+    Route::delete('/{id}', [PostController::class, 'destroy'])
+            ->name('destroy')
+            ->where(['id' => '[0-9]+']);
+})->name("posts");
 
 Auth::routes();
 

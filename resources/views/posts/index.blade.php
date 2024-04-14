@@ -10,7 +10,7 @@
 
         <div class="mb-3">
             <a href="/posts/create">
-                <button class="btn btn-outline-success">
+                <button class="btn btn-success">
                     New Post
                 </button>
             </a>

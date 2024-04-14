@@ -70,7 +70,6 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-
         $post = Post::whereId($id)->first();
 
         if ($post) {
@@ -89,7 +88,7 @@ class PostController extends Controller
     {
         $validatedData = $request->validated();
 
-        $post = Post::where($id)->first();
+        $post = Post::whereId($id)->first();
 
         $post->update([
             'title' => $validatedData['post_title'],
@@ -98,7 +97,7 @@ class PostController extends Controller
         ]);
 
         return redirect()
-                    ->action('/posts', $post->id)
+                    ->action([PostController::class, 'show'], ['id' => $post->id])
                     ->with('success','Post updated successfully!');
     }
 
@@ -107,6 +106,16 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::whereId($id)->first();
+
+        if ($post->delete()) {
+            return redirect()
+                        ->action([PostController::class, "index"])
+                        ->with('success','Post deleted successfully!');
+        } else {
+            return redirect()
+                        ->action([PostController::class, "index"])
+                        ->with('error','Could not delete post');
+        }
     }
 }
