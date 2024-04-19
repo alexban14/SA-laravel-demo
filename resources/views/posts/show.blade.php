@@ -4,9 +4,9 @@
     <div class="container md-w-100 w-50">
 
         @if(session()->has('success'))
-            <div class="alert alert-success">
+            <x-alert type="success">
                 {{ session()->get('success') }}
-            </div>
+            </x-alert>
         @endif
 
         <div class="d-flex mb-3 justify-content-between">

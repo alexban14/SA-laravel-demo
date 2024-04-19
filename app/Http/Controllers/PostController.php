@@ -31,7 +31,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedInput = $request->validate([
-            "post_title"=> "string|required|max:255",
+            // "post_title"=> "string|required|max:255",
+            "post_title"=> ["string", "required","max:255"],
             "post_body" => "string|required|max:1000",
             "post_image" => "string|max:255",
         ]);
@@ -111,7 +112,7 @@ class PostController extends Controller
         if ($post->delete()) {
             return redirect()
                         ->action([PostController::class, "index"])
-                        ->with('success','Post deleted successfully!');
+                        ->with('warning','Post deleted successfully!');
         } else {
             return redirect()
                         ->action([PostController::class, "index"])
