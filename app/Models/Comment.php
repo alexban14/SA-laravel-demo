@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Comment extends Model
 {
     use HasFactory;
 
@@ -18,16 +18,22 @@ class Post extends Model
     // Define timestamps (optional)
     public $timestamps = true;
 
-    protected $fillable = [
-        "title",
-        "body",
-        "image",
+    public $fillable = [
+        'body',
+        'user_id',
+        'post_id',
     ];
 
-    // post has many comments
-    public function comments()
+    public $hidden = [
+        'id',
+        'user_id',
+        'post_id',
+    ];
+
+    // comment has many posts
+    public function posts()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Post::class);
     }
 
     // comment belongs to a user
