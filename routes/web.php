@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('home');
-    return view('no-auth-home');
+    return view('home');
+    // return view('no-auth-home');
 });
 
 Route::get('/welcome', function () {
@@ -34,24 +34,32 @@ Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 // Route::resource('posts', PostController::class);
 Route::group(['prefix' => 'posts', 'as' => 'posts'], function () {
+
     Route::get('/', [PostController::class, 'index'])
             ->name('.index');
+
     Route::get('/{id}', [PostController::class, 'show'])
             ->name('.show')
             ->where(['id' => '[0-9]+']);
-    Route::get('/create', [PostController::class, 'create'])
+
+    Route::middleware('auth')->get('/create', [PostController::class, 'create'])
             ->name('.create');
-    Route::post('/', [PostController::class, 'store'])
+
+    Route::middleware('auth')->post('/', [PostController::class, 'store'])
             ->name('.store');
+
     Route::get('/{id}/edit', [PostController::class, 'edit'])
             ->name('.edit')
             ->where(['id' => '[0-9]+']);
+
     Route::put('/{id}', [PostController::class, 'update'])
             ->name('.update')
             ->where(['id' => '[0-9]+']);
+
     Route::delete('/{id}', [PostController::class, 'destroy'])
             ->name('.destroy')
             ->where(['id' => '[0-9]+']);
+
 });
 // })->name("posts");
 

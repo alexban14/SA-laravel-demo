@@ -1,4 +1,5 @@
-@extends('layouts.app-base')
+{{-- @extends('layouts.app-base') --}}
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -21,13 +22,20 @@
             </x-alert>
         @endif
 
-        <div class="mb-3">
-            <a href="/posts/create">
-                <button class="btn btn-success">
-                    New Post
-                </button>
-            </a>
-        </div>
+
+        @if (Auth::user())
+            <div class="mb-3">
+                <a href="/posts/create">
+                    <button class="btn btn-success">
+                        New Post
+                    </button>
+                </a>
+            </div>
+        @else
+            <div class="alert alert-info">
+                Log in order to be able to create blog posts!
+            </div>
+        @endif
 
         <div class="d-flex flex-row justify-content-start">
             @foreach ($posts as $post)

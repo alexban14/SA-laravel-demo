@@ -1,4 +1,5 @@
-@extends('layouts.app-base')
+{{-- @extends('layouts.app-base') --}}
+@extends('layouts.app')
 
 @section('content')
     <div class="container md-w-100 w-50">
