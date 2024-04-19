@@ -2,10 +2,23 @@
 
 @section('content')
     <div class="container">
-        @if(session()->has('success'))
+
+        {{-- @if(session()->has('success'))
             <div class="alert alert-success">
                 {{ session()->get('success') }}
             </div>
+        @endif --}}
+
+        @if(session()->has('success'))
+            <x-alert type="success">
+                {{ session()->get('success') }}
+            </x-alert>
+        @endif
+
+        @if(session()->has('warning'))
+            <x-alert type="warning">
+                {{ session()->get('warning') }}
+            </x-alert>
         @endif
 
         <div class="mb-3">
