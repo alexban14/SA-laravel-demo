@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -30,6 +31,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+
         $validatedInput = $request->validate([
             // "post_title"=> "string|required|max:255",
             "post_title"=> ["string", "required","max:255"],
@@ -37,11 +40,18 @@ class PostController extends Controller
             "post_image" => "string|max:255",
         ]);
 
-        Post::create([
-            'title' => $validatedInput['post_title'],
-            'body' => $validatedInput['post_body'],
-            'image' => $validatedInput['post_image'],
-        ]);
+        $post = new Post;
+        $post->title = $validatedInput['post_title'];
+        $post->body = $validatedInput['post_body'];
+        $post->image = $validatedInput['post_image'];
+
+        $user->posts()->save($post);
+
+        // Post::create([
+        //     'title' => $validatedInput['post_title'],
+        //     'body' => $validatedInput['post_body'],
+        //     'image' => $validatedInput['post_image'],
+        // ]);
 
         //redirecting to controller action
         return redirect()

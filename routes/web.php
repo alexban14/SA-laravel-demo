@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -48,16 +49,24 @@ Route::group(['prefix' => 'posts', 'as' => 'posts'], function () {
     Route::middleware('auth')->post('/', [PostController::class, 'store'])
             ->name('.store');
 
-    Route::get('/{id}/edit', [PostController::class, 'edit'])
+    Route::middleware('post.owner')->get('/{id}/edit', [PostController::class, 'edit'])
             ->name('.edit')
             ->where(['id' => '[0-9]+']);
 
-    Route::put('/{id}', [PostController::class, 'update'])
+    Route::middleware('post.owner')->put('/{id}', [PostController::class, 'update'])
             ->name('.update')
             ->where(['id' => '[0-9]+']);
 
-    Route::delete('/{id}', [PostController::class, 'destroy'])
+    Route::middleware('post.owner')->delete('/{id}', [PostController::class, 'destroy'])
             ->name('.destroy')
+            ->where(['id' => '[0-9]+']);
+
+    Route::middleware('auth')->post('/{id}/comments', [CommentController::class, 'store'])
+            ->name('.store.comment')
+            ->where(['id' => '[0-9]+']);
+
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])
+            ->name('.delete.comment')
             ->where(['id' => '[0-9]+']);
 
 });

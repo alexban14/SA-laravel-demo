@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
 
     // Define table name (optional)
-    protected $table = 'posts';
+    protected $table = 'comments';
 
     // Define primary key (optional)
     protected $primaryKey = 'id';
@@ -30,10 +30,10 @@ class Comment extends Model
         'post_id',
     ];
 
-    // comment has many posts
-    public function posts()
+    // comment belongs to a post
+    public function post()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(Post::class);
     }
 
     // comment belongs to a user
