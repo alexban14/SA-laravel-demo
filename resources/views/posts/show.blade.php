@@ -26,7 +26,7 @@
                     </x-alert>
                 @endif
 
-                @if (Auth::user()->id === $post->user->id)
+                @if (Auth::user() && Auth::user()->id === $post->user->id)
                     <div class="d-flex mb-3 justify-content-between">
                         <a href="/posts/{{ $post['id'] }}/edit">
                             <button class="btn btn-info">

@@ -37,7 +37,7 @@
             </div>
         @endif
 
-        <div class="d-flex flex-row justify-content-start">
+        <div class="d-flex flex-row justify-content-start flex-wrap">
             @foreach ($posts as $post)
                 <div class="card m-3" style="width: 18rem;">
                     <img src="{{ $post->image }}" class="card-img-top" alt="{{ $post->title }}">

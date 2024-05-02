@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\User;
+use App\Repositories\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    private PostRepositoryInterface $postRepository;
+    public function __construct(PostRepositoryInterface $postRepositoryInterface)
+    {
+        $this->postRepository = $postRepositoryInterface;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +39,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $authUser = Auth::user();
+        $user = User::whereId($authUser->id)->first();
 
         $validatedInput = $request->validate([
             // "post_title"=> "string|required|max:255",
@@ -40,18 +49,7 @@ class PostController extends Controller
             "post_image" => "string|max:255",
         ]);
 
-        $post = new Post;
-        $post->title = $validatedInput['post_title'];
-        $post->body = $validatedInput['post_body'];
-        $post->image = $validatedInput['post_image'];
-
-        $user->posts()->save($post);
-
-        // Post::create([
-        //     'title' => $validatedInput['post_title'],
-        //     'body' => $validatedInput['post_body'],
-        //     'image' => $validatedInput['post_image'],
-        // ]);
+        $this->postRepository->store($validatedInput, $user);
 
         //redirecting to controller action
         return redirect()
@@ -100,6 +98,11 @@ class PostController extends Controller
         $validatedData = $request->validated();
 
         $post = Post::whereId($id)->first();
+
+        // $post->title = $validatedData['post_title'];
+        // $post->body = $validatedData['post_body'];
+        // $post->image = $validatedData['post_image'];
+        // $post->save();
 
         $post->update([
             'title' => $validatedData['post_title'],

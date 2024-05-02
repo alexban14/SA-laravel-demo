@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\PostRepository;
+use App\Repositories\PostRepositoryInterface;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
